@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>柏曼 · 内容营销操作系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+            background: #f5f2ed;
+            color: #1e1e1e;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .nav {
+            width: 280px;
+            min-width: 280px;
+            background: #ffffff;
+            border-right: 1px solid #e8e0d8;
+            height: 100vh;
+            overflow-y: auto;
+            padding: 24px 16px 40px;
+            position: sticky;
+            top: 0;
+            flex-shrink: 0;
+        }
+        .nav::-webkit-scrollbar {
+            width: 4px;
+        }
+        .nav::-webkit-scrollbar-thumb {
+            background: #d9d0c6;
+            border-radius: 4px;
+        }
+        .nav-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            padding: 0 8px 16px 8px;
+            border-bottom: 2px solid #c9a87c;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+        .nav-brand span {
+            font-weight: 400;
+            font-size: 13px;
+            color: #8a7a6a;
+            display: block;
+            margin-top: 2px;
+        }
+        .nav-section {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8a7a6a;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 16px 8px 6px 8px;
+            border-top: 1px solid #f0ebe6;
+            margin-top: 4px;
+        }
+        .nav-section:first-of-type {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 4px;
+        }
+        .nav a {
+            display: block;
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #3d322a;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.15s, color 0.15s;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+        .nav a:hover {
+            background: #f5f0ea;
+            color: #1a1a1a;
+        }
+        .nav a.active {
+            background: #c9a87c;
+            color: #fff;
+            font-weight: 600;
+        }
+        .nav a.sub {
+            padding-left: 28px;
+            font-size: 13px;
+            color: #6b5a4a;
+        }
+        .nav a.sub:hover {
+            background: #f5f0ea;
+            color: #1a1a1a;
+        }
+        .nav a.sub.active {
+            background: #c9a87c;
+            color: #fff;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px 48px 60px;
+            background: #fcfaf8;
+            height: 100vh;
+        }
+        .content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .content::-webkit-scrollbar-thumb {
+            background: #d9d0c6;
+            border-radius: 4px;
+        }
+        .content-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .content h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1a1a1a;
+            border-bottom: 3px solid #c9a87c;
+            padding-bottom: 14px;
+            margin-bottom: 8px;
+        }
+        .content .subhead {
+            color: #6b5a4a;
+            font-size: 15px;
+            margin-bottom: 36px;
+            border-left: 4px solid #c9a87c;
+            padding-left: 16px;
+            background: #faf8f6;
+            border-radius: 0 8px 8px 0;
+            line-height: 1.7;
+        }
+        .content h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8e0d8;
+            color: #2c241e;
+        }
+        .content h3 {
+            font-size: 19px;
+            font-weight: 700;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            color: #3d322a;
+        }
+        .content h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            color: #4d3f35;
+        }
+        .content p,
+        .content li {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #2c241e;
+        }
+        .content ul,
+        .content ol {
+            padding-left: 24px;
+            margin: 8px 0 12px;
+        }
+        .content li {
+            margin-bottom: 4px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 28px 32px;
+            margin: 24px 0 32px;
+            border: 1px solid #ece6e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+        }
+        .card-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: #1e1e1e;
+            margin-bottom: 4px;
+        }
+        .card-tag {
+            display: inline-block;
+            background: #c9a87c;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            margin-bottom: 12px;
+        }
+        .card-tag-gray {
+            background: #8a7a6a;
+        }
+        .card-tag-blue {
+            background: #3d6b8f;
+        }
+        .card-tag-green {
+            background: #4a7b5c;
+        }
+        .card-tag-red {
+            background: #b34332;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 12px 0 18px;
+            border-radius: 12px;
+            border: 1px solid #e8e0d8;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            min-width: 480px;
+        }
+        th {
+            background: #f3efe9;
+            text-align: left;
+            padding: 10px 14px;
+            font-weight: 700;
+            color: #2c241e;
+            border-bottom: 2px solid #d9d0c6;
+        }
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e8e0d8;
+            vertical-align: top;
+            color: #2c241e;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .box {
+            background: #f6f2ec;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 12px 0 16px;
+            border-left: 4px solid #c9a87c;
+        }
+        .box-red {
+            border-left-color: #b34332;
+            background: #fcf5f3;
+        }
+        .box-blue {
+            border-left-color: #3d6b8f;
+            background: #f4f7fa;
+        }
+        .box-green {
+            border-left-color: #4a7b5c;
+            background: #f4f8f5;
+        }
+        .box-gold {
+            border-left-color: #c9a87c;
+            background: #f9f5ef;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 24px;
+            background: #fcfaf8;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #e8e0d8;
+            margin: 12px 0 16px;
+        }
+        .grid-2 span {
+            font-size: 14px;
+            color: #2c241e;
+        }
+        .grid-2 .label {
+            font-weight: 600;
+            color: #6b5a4a;
+        }
+
+        .quote-block {
+            background: #f9f5ef;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #2c241e;
+            margin: 8px 0 12px;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #e8e0d8;
+            margin: 40px 0 20px;
+        }
+
+        @media (max-width: 900px) {
+            .app {
+                flex-direction: column;
+                height: auto;
+                overflow: visible;
+            }
+            .nav {
+                width: 100%;
+                min-width: auto;
+                height: auto;
+                max-height: 300px;
+                border-right: none;
+                border-bottom: 1px solid #e8e0d8;
+                position: relative;
+                padding: 16px;
+                overflow-y: auto;
+            }
+            .content {
+                height: auto;
+                overflow: visible;
+                padding: 20px 16px 40px;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media print {
+            .nav {
+                display: none;
+            }
+            .content {
+                height: auto;
+                overflow: visible;
+                padding: 20px 30px;
+            }
+            .app {
+                display: block;
+                height: auto;
+                overflow: visible;
+            }
+            .card {
+                break-inside: avoid;
+                border: 1px solid #ccc;
+            }
+            .table-wrap {
+                border: 1px solid #ccc;
+            }
+            th {
+                background: #eee;
+            }
+            body {
+                background: #fff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+
+        <nav class="nav" id="nav">
+            <div class="nav-brand">
+                柏曼 · 内容操作系统
+                <span>全场景内容策划工具</span>
+            </div>
+
+            <div class="nav-section">策略基础</div>
+            <a href="#sec-charter" class="active">品牌内容宪章</a>
+            <a href="#sec-stp">STP市场定位</a>
+            <a href="#sec-4p">4P营销组合</a>
+            <a href="#sec-journey">消费者决策路径</a>
+            <a href="#sec-matrix">内容匹配矩阵</a>
+
+            <div class="nav-section">固定内容SOP</div>
+            <a href="#sop-01" class="sub">SOP-01 详情页策划案</a>
+            <a href="#sop-02" class="sub">SOP-02 品牌通版策划案</a>
+            <a href="#sop-03" class="sub">SOP-03 品牌二级页策划案</a>
+            <a href="#sop-04" class="sub">SOP-04 主图策划案</a>
+            <a href="#sop-05" class="sub">SOP-05 主图视频脚本</a>
+            <a href="#sop-06" class="sub">SOP-06 微详情视频脚本</a>
+
+            <div class="nav-section">灵活内容SOP</div>
+            <a href="#sop-07" class="sub">SOP-07 广告图策划案</a>
+            <a href="#sop-08" class="sub">SOP-08 直播脚本</a>
+            <a href="#sop-09" class="sub">SOP-09 小红书图文笔记</a>
+            <a href="#sop-10" class="sub">SOP-10 小红书视频笔记</a>
+            <a href="#sop-11" class="sub">SOP-11 公众号推文</a>
+            <a href="#sop-12" class="sub">SOP-12 视频号视频</a>
+            <a href="#sop-13" class="sub">SOP-13 抖音视频</a>
+
+            <div class="nav-section">响应内容SOP</div>
+            <a href="#sop-14" class="sub">SOP-14 售前售后话术</a>
+        </nav>
+
+        <main class="content" id="mainContent">
+            <div class="content-inner">
+
+                <h1>德国柏曼 · 内容营销操作系统</h1>
+                <div class="subhead">
+                    从策略到执行的全链路内容生产工具。覆盖全域全渠道所有内容场景，策划人员可直接套用、举一反三、拓展创意。
+                </div>
+
+                <!-- ========================================================== -->
+                <h2 id="sec-charter">一、品牌内容宪章</h2>
+                <p style="margin-bottom:12px;"><strong>所有内容的“宪法”，任何内容不得违反。</strong></p>
+
+                <div class="card">
+                    <div class="card-tag">必须遵守</div>
+                    <div class="card-title">1.1 品牌定位</div>
+                    <p><strong>德国柏曼 = 高端顶流 + 光品质</strong></p>
+                    <p style="margin-top:4px;">58年不跨界，只做灯，光品质很好。</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-tag">必须遵守</div>
+                    <div class="card-title">1.2 品牌人格与语气</div>
+                    <ul>
+                        <li><strong>品牌人格</strong>：严谨、优雅、温暖、专业、创新</li>
+                        <li><strong>语气</strong>：理性但不冰冷，专业但不卖弄，有温度但不煽情</li>
+                        <li><strong>核心原则</strong>：“主体性叙事”——切换消费者视角，告诉用户“<strong>你为我做到了什么，别人没做到的</strong>”</li>
+                        <li><strong>核心关键词</strong>：高端顶流、光品质、58年、德国、健康、全光谱、显色指数、12年质保</li>
+                        <li><strong>禁用词</strong>：“全网最低”“效果炸裂”“必入”“天花板”“yyds”等过度网络用语及夸大词</li>
+                    </ul>
+                </div>
+
+                <div class="card box-red">
+                    <div class="card-tag" style="background:#b34332;">营销绝对红线</div>
+                    <ul>
+                        <li>❌ 禁止低价内卷、夸大宣传、低俗博眼球</li>
+                        <li>❌ 禁止贬低同行，保持高端、严谨、温柔、绅士的沟通气质</li>
+                        <li>❌ 禁止只讲参数不讲用户价值，禁止品牌自嗨</li>
+                        <li>❌ 禁止品牌视角叙事，必须转化为“为你……”</li>
+                        <li>❌ 禁止没有科学出处的数据和声称</li>
+                    </ul>
+                </div>
+
+                <!-- ========================================================== -->
+                <h2 id="sec-stp">二、STP市场定位策略</h2>
+
+                <div class="card">
+                    <div class="card-tag">策略基石</div>
+                    <div class="card-title">S · 市场细分</div>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>市场层级</th><th>价格区间</th><th>代表品牌</th><th>核心特征</th></tr>
+                            <tr><td>奢侈级</td><td>极高</td><td>Flos、Oluce</td><td>设计驱动、艺术收藏属性、极少数人群</td></tr>
+                            <tr><td><strong>高端顶流</strong></td><td><strong>高单价</strong></td><td><strong>柏曼</strong></td><td><strong>专业照明、光品质、德国标准、耐用</strong></td></tr>
+                            <tr><td>中高端</td><td>中高</td><td>部分国产品牌升级线</td><td>营销驱动、跟风高端、产品同质化</td></tr>
+                            <tr><td>大众</td><td>中低</td><td>欧普、雷士、小米</td><td>标准化产品、规模驱动、性价比</td></tr>
+                            <tr><td>白牌</td><td>低</td><td>工厂直销</td><td>无品牌、纯价格竞争</td></tr>
+                        </table>
+                    </div>
+                    <p><strong>柏曼的选择</strong>：聚焦<strong>高端顶流</strong>层级，不进入大众市场，不参与价格竞争。</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-tag">策略基石</div>
+                    <div class="card-title">T · 目标市场</div>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>客群</th><th>购买力特征</th><th>消费行为</th><th>柏曼对应系列</th></tr>
+                            <tr><td><strong>A1</strong></td><td>只买最贵的奢侈级</td><td>追求极致、品牌即身份</td><td>R系（大师系列）</td></tr>
+                            <tr><td><strong>A2</strong></td><td>买一线大牌</td><td>习惯选择行业头部</td><td>P系（尊享系列）</td></tr>
+                            <tr><td><strong>A3</strong></td><td>买真正最好的</td><td>做功课、看本质、不被营销忽悠</td><td>P系（尊享系列）</td></tr>
+                            <tr><td><strong>B1</strong></td><td>高端性价比</td><td>追求价值最大化</td><td>P系+E系</td></tr>
+                            <tr><td><strong>B2</strong></td><td>中端性价比</td><td>够用就好、偶尔升级</td><td>E系（菁英系列）</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-tag">策略基石</div>
+                    <div class="card-title">P · 市场定位</div>
+                    <p style="font-size:20px;font-weight:700;color:#2c241e;margin:8px 0 12px;">德国柏曼 = 高端顶流 + 光品质</p>
+                    <ul>
+                        <li><strong>差异化锚点</strong>：58年不跨界，只做灯</li>
+                        <li><strong>核心价值主张</strong>：科学用光、用好光</li>
+                        <li><strong>品牌承诺</strong>：12年性能质保（行业独家）</li>
+                        <li><strong>FRESH AIR产品基因</strong>：Functionality（功能）· Responsible-Producer（社会责任）· Eco-Friendly（生态友好）· Safety（安全）· Health-Harmless（健康）· Atmosphere（氛围）· Illumination（明亮）· Relaxation（松弛）</li>
+                    </ul>
+                    <div class="box box-blue">
+                        <strong>一句话说清我们是谁</strong>：<br />
+                        “柏曼是高端顶流品牌，58年不跨界，只做灯，光品质很好。”
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <h2 id="sec-4p">三、4P营销组合策略</h2>
+
+                <div class="card">
+                    <div class="card-tag">策略框架</div>
+                    <div class="card-title">Product · 产品策略</div>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>品类</th><th>核心卖点</th><th>关键参数</th><th>认证/标准</th></tr>
+                            <tr><td><strong>护眼灯</strong></td><td>德国标准，专业护眼<br />全光谱仿生自然光</td><td>显色指数Ra≥95<br />国AA级照度<br />无蓝光危害</td><td>国AA认证、TÜV防蓝光<br />IEC62471光生物安全</td></tr>
+                            <tr><td><strong>家居灯</strong></td><td>德国设计，家居美学<br />三重耐看标准</td><td>色温可调（2700K-5000K）<br />高品质金属/玻璃材质</td><td>设计奖项认证</td></tr>
+                            <tr><td><strong>家装灯</strong></td><td>德国精工，全屋解决方案<br />深度防眩设计</td><td>多种光束角可选<br />全光谱高显指</td><td>3C认证、CE认证</td></tr>
+                        </table>
+                    </div>
+                    <p><strong>FRESH AIR产品基因</strong>：Functionality（功能）· Responsible-Producer（社会责任）· Eco-Friendly（生态友好）· Safety（安全）· Health-Harmless（健康）· Atmosphere（氛围）· Illumination（明亮）· Relaxation（松弛）</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-tag">策略框架</div>
+                    <div class="card-title">Price · 价格策略</div>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>系列</th><th>价格定位</th><th>目标客群</th><th>价值依据</th></tr>
+                            <tr><td><strong>R系（大师系列）</strong></td><td>奢侈级</td><td>A1</td><td>顶级设计、独家材质、限量属性</td></tr>
+                            <tr><td><strong>P系（尊享系列）</strong></td><td>高端顶流</td><td>A2/A3/B1</td><td>全光谱高配、德国标准、12年质保</td></tr>
+                            <tr><td><strong>E系（菁英系列）</strong></td><td>高端入门</td><td>B1/B2</td><td>高光效节能、国家能效标准、品质保障</td></tr>
+                            <tr><td><strong>U系（电工系列）</strong></td><td>全价格带</td><td>A/B类</td><td>家居场景功能性需求补充</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-green"><strong>价格沟通原则</strong>：不拼低价、不参与价格战。用“整体使用成本”替代“一次性购买价格”（12年质保、不用换灯）。</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-tag">策略框架</div>
+                    <div class="card-title">Place · 渠道策略</div>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>渠道类型</th><th>具体平台</th><th>内容形态</th></tr>
+                            <tr><td><strong>电商平台</strong></td><td>天猫、京东</td><td>详情页、主图、视频、品牌页</td></tr>
+                            <tr><td><strong>社媒平台</strong></td><td>小红书、抖音</td><td>图文笔记、视频笔记、达人合作</td></tr>
+                            <tr><td><strong>社交平台</strong></td><td>视频号、公众号</td><td>推文、视频、品牌故事</td></tr>
+                            <tr><td><strong>线下体验</strong></td><td>21家独立设计体验店</td><td>陈列、导购、灯光方案</td></tr>
+                            <tr><td><strong>服务触点</strong></td><td>售前/售后咨询</td><td>话术、方案、测光</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-tag">策略框架</div>
+                    <div class="card-title">Promotion · 沟通策略</div>
+                    <ul>
+                        <li><strong>“主体性叙事”</strong>：切换消费者视角——“你为我做到了什么”</li>
+                        <li><strong>尊重消费者认知偏差</strong>：用影响力营销构建沟通</li>
+                        <li><strong>回归标准</strong>：以国家标准、科学依据建立信任</li>
+                        <li><strong>高端沟通气质</strong>：严谨、温柔、绅士</li>
+                    </ul>
+                </div>
+
+                <!-- ========================================================== -->
+                <h2 id="sec-journey">四、消费者决策路径</h2>
+                <p><strong>以下5阶段模型是所有SOP的底层参照。每个SOP中提及“目的阶段”时，均指向此模型。</strong></p>
+
+                <div class="card">
+                    <div class="card-tag">核心模型</div>
+                    <div class="card-title">5阶段消费者决策路径</div>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>阶段</th><th>用户心理</th><th>内容语气</th><th>典型触点</th></tr>
+                            <tr><td><strong>①立认知</strong></td><td>“这个牌子好像听过”</td><td>权威、有质感</td><td>品牌广告、公众号</td></tr>
+                            <tr><td><strong>②做教育</strong></td><td>“原来灯光对视力影响这么大”</td><td>专业、可信赖</td><td>小红书、抖音</td></tr>
+                            <tr><td><strong>③种场景</strong></td><td>“我家要是也有这样的灯光就好了”</td><td>感性、氛围感</td><td>小红书、抖音、视频号</td></tr>
+                            <tr><td><strong>④促决策</strong></td><td>“对比了一圈，就选它了”</td><td>对比、测评、保障</td><td>详情页、客服、直播</td></tr>
+                            <tr><td><strong>⑤扩口碑</strong></td><td>“装好了，分享一下”</td><td>互动、回馈</td><td>小红书晒单、售后</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-blue">
+                        <strong>关键洞察</strong>：高端灯具是低频、高客单价、强决策门槛品类。用户不会在第一次接触就购买，必须经历完整的5阶段路径。
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <h2 id="sec-matrix">五、内容匹配矩阵</h2>
+                <p><strong>使用说明</strong>：策划人员根据“品类 + 目标阶段”，从下方矩阵中选择内容类型，然后跳转到对应SOP执行。</p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>内容类型</th><th>①立认知</th><th>②做教育</th><th>③种场景</th><th>④促决策</th><th>⑤扩口碑</th><th>属性</th></tr></thead>
+                        <tbody>
+                            <tr><td>详情页策划案</td><td></td><td>★★</td><td>★★★</td><td>★★★</td><td></td><td>固定</td></tr>
+                            <tr><td>品牌通版策划案</td><td>★★★</td><td>★★</td><td></td><td></td><td></td><td>固定</td></tr>
+                            <tr><td>品牌二级页策划案</td><td>★★★</td><td>★★★</td><td>★★</td><td>★★</td><td></td><td>固定</td></tr>
+                            <tr><td>主图策划案</td><td></td><td></td><td>★★★</td><td>★★★</td><td></td><td>固定</td></tr>
+                            <tr><td>主图视频脚本</td><td></td><td>★★</td><td>★★★</td><td>★★★</td><td></td><td>固定</td></tr>
+                            <tr><td>微详情视频脚本</td><td></td><td>★★</td><td>★★★</td><td>★★★</td><td></td><td>固定</td></tr>
+                            <tr><td>广告图策划案</td><td>★★</td><td>★</td><td>★★★</td><td>★★★</td><td></td><td>灵活</td></tr>
+                            <tr><td>直播脚本</td><td>★★</td><td>★★</td><td>★★★</td><td>★★★</td><td>★</td><td>灵活</td></tr>
+                            <tr><td>小红书图文笔记</td><td>★★</td><td>★★★</td><td>★★★</td><td>★★</td><td>★★★</td><td>灵活</td></tr>
+                            <tr><td>小红书视频笔记</td><td>★★</td><td>★★★</td><td>★★★</td><td>★★</td><td>★★★</td><td>灵活</td></tr>
+                            <tr><td>公众号推文</td><td>★★★</td><td>★★★</td><td>★★</td><td>★★</td><td></td><td>灵活</td></tr>
+                            <tr><td>视频号视频</td><td>★★★</td><td>★★</td><td>★★★</td><td>★★</td><td></td><td>灵活</td></tr>
+                            <tr><td>抖音视频</td><td></td><td>★★★</td><td>★★★</td><td>★★</td><td></td><td>灵活</td></tr>
+                            <tr><td>售前售后话术</td><td></td><td></td><td></td><td>★★★</td><td>★★★</td><td>响应</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="font-size:13px;color:#8a7a6a;margin-top:-8px;">★★★=首选推荐 ｜ ★★=适用 ｜ 空白=不适用</p>
+
+
+                <!-- ========================================================== -->
+                <!-- 六、固定内容SOP -->
+                <h2 id="sec-fixed">六、固定内容SOP</h2>
+                <p style="margin-bottom:16px;"><strong>定义</strong>：一次性产出、上线后固定不变的内容。策划时需整合5阶段思考，最终产出1套完整方案。</p>
+
+                <!-- ========================================================== -->
+                <!-- SOP-01 详情页 -->
+                <div class="card" id="sop-01">
+                    <div class="card-tag">SOP-01 · 固定内容</div>
+                    <div class="card-title">详情页策划案</div>
+                    <p><strong>适用品类</strong>：护眼灯 / 家居灯 / 家装灯 &nbsp;｜&nbsp; <strong>平台</strong>：天猫 / 京东</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <p>用户打开详情页时，已经过了“随便看看”的阶段——他正在对比产品，准备做购买决策。详情页不是用来“吸引注意”的，是用来“说服下单”的。</p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>划</strong></td><td>快速扫视，过滤无效信息</td><td>“这跟我有关吗？”</td><td>3秒内告诉他“有关”</td></tr>
+                            <tr><td><strong>看</strong></td><td>带着问题寻找答案</td><td>“它能解决我的问题吗？”</td><td>直接展示解决方案</td></tr>
+                            <tr><td><strong>比</strong></td><td>横向对比不同选项</td><td>“凭什么选你不选别人？”</td><td>给出不可辩驳的理由</td></tr>
+                            <tr><td><strong>怕</strong></td><td>担心买错/买贵/售后无保障</td><td>“还有什么坑？”</td><td>消除所有顾虑</td></tr>
+                        </table>
+                    </div>
+                    <p><strong>详情页参照的决策阶段</strong>：④促决策为主，③种场景为辅。</p>
+
+                    <h4>第二段 · 4种内容逻辑</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>逻辑</th><th>满足行为</th><th>核心驱动力</th><th>在详情页中的体现</th><th>对应屏位</th></tr>
+                            <tr><td><strong>①建立认知</strong></td><td>划</td><td>让用户知道“你是谁、什么档次”</td><td>品牌形象、品牌故事</td><td>第1屏</td></tr>
+                            <tr><td><strong>②解决疑问</strong></td><td>看</td><td>让用户确认“能解决我的问题”</td><td>痛点场景、解决方案</td><td>第2-3屏</td></tr>
+                            <tr><td><strong>③提供证据</strong></td><td>比</td><td>让用户相信“你说的是真的”</td><td>认证、参数、检测报告</td><td>第4-5屏</td></tr>
+                            <tr><td><strong>④消除顾虑</strong></td><td>怕</td><td>让用户放心“不会有坑”</td><td>服务保障、竞争胜选、行动引导</td><td>第6-8屏</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第三段 · 逻辑一：建立认知（第1屏）</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：品牌身份 + 核心定位 + 视觉冲击</p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>品类</th><th>第1屏内容</th></tr>
+                            <tr><td><strong>护眼灯</strong></td><td>画面：孩子在柏曼台灯下专注学习的温暖场景。文案：“国AA级护眼，德国标准认证” + “58年不跨界，只做灯”</td></tr>
+                            <tr><td><strong>家居灯</strong></td><td>画面：客厅/餐厅中柏曼吊灯营造的高级氛围感。文案：“德国设计，点亮品质家居” + “58年不跨界，只做灯”</td></tr>
+                            <tr><td><strong>家装灯</strong></td><td>画面：全屋灯光实拍效果图，见光不见灯的品质感。文案：“全屋好光，一套搞定” + “58年不跨界，只做灯”</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-gold">
+                        <strong>拆解</strong>：画面用真实场景而非产品白底图；文案第一句给核心利益点（用户听得懂的标准）；文案第二句给品牌背书（58年不跨界建立专业信任）。
+                    </div>
+
+                    <h4>第四段 · 逻辑二：解决疑问（第2-3屏）</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：痛点场景 + 解决方案</p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>品类</th><th>第2屏（痛点）</th><th>第3屏（解决方案）</th></tr>
+                            <tr><td><strong>护眼灯</strong></td><td>“孩子写作业揉眼、歪头、离书本越来越近……”</td><td>“显色指数Ra≥95，还原真实色彩。普通台灯Ra80，颜色发白失真。”</td></tr>
+                            <tr><td><strong>家居灯</strong></td><td>“买了一盏好看的灯，装在家里却总感觉差点意思……”</td><td>“包豪斯原创设计，全金属材质，关灯好看，开灯更好看。”</td></tr>
+                            <tr><td><strong>家装灯</strong></td><td>“装修到装灯环节才发现尺寸不对、光束角不会选……”</td><td>“深度防眩+全光谱高显指，见光不见灯，舒适不刺眼。”</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-gold">
+                        <strong>拆解</strong>：痛点用具体场景描写；解决方案第一句给结论；带对比让用户知道差距。
+                    </div>
+
+                    <h4>第五段 · 逻辑三：提供证据（第4-5屏）</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：权威认证 + 技术解读 + 真实场景</p>
+                    <p><strong>第4屏 · 科学背书区</strong></p>
+                    <ul>
+                        <li><strong>核心技术</strong>：紫光全光谱仿生自然光技术、减光衰芯片控温技术</li>
+                        <li><strong>权威认证</strong>：UL钻石级光源验证 · 南德TÜV防蓝光认证 · IEC 62471 · 国家3C强制认证</li>
+                        <li><strong>行业标准参与</strong>：参编 GB/T 24819-2023、T/SILA 012-2023 等多项国标/团标</li>
+                    </ul>
+                    <p><strong>第5屏 · 场景沉浸区</strong></p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>品类</th><th>场景内容</th></tr>
+                            <tr><td>护眼灯</td><td>学习桌、阅读角、床头，孩子在不同场景下使用台灯的真实照片</td></tr>
+                            <tr><td>家居灯</td><td>客厅、餐厅、卧室，柏曼吊灯在不同家居风格中的融合效果</td></tr>
+                            <tr><td>家装灯</td><td>客厅无主灯设计、厨房操作照明、走廊洗墙效果</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-gold">
+                        <strong>拆解</strong>：讲技术不讲参数（用户能感知的概念）；真实场景比样板间更可信。
+                    </div>
+
+                    <h4>第六段 · 逻辑四：消除顾虑（第6-8屏）</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：竞争胜选 + 服务保障 + 行动号召</p>
+                    <p><strong>第6屏 · 竞争胜选区</strong></p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>品类</th><th>话术</th></tr>
+                            <tr><td>护眼灯</td><td>“普通护眼灯用3年可能光衰，柏曼为你做到12年性能不衰减。”</td></tr>
+                            <tr><td>家居灯</td><td>“普通装饰灯追求短期颜值，柏曼为你做到三重耐看标准。”</td></tr>
+                            <tr><td>家装灯</td><td>“普通家装灯只讲亮度，柏曼为你做到深度防眩+科学配光。”</td></tr>
+                        </table>
+                    </div>
+                    <p><strong>第7屏 · 服务保障区</strong></p>
+                    <ul>
+                        <li><strong>12年性能质保</strong>——央企财险承保，行业独家</li>
+                        <li><strong>品牌专属安装团队</strong>——不是第三方外包</li>
+                        <li><strong>免费全屋灯光设计</strong>——专业设计师一对一</li>
+                        <li><strong>流光计划免费测光</strong>——你亲自测，光品质你自己看</li>
+                    </ul>
+                    <p><strong>第8屏 · 行动号召区</strong></p>
+                    <p>立即购买 · 咨询客服 · 预约免费设计</p>
+                    <p>12年质保 · 30天无理由 · 免费安装</p>
+
+                    <h4>第七段 · 逻辑之间的关系</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户心理关口</th><th>对应逻辑</th><th>你给的内容</th></tr>
+                            <tr><td>“这是谁？”</td><td>建立认知</td><td>品牌+定位（第1屏）</td></tr>
+                            <tr><td>“能解决我的问题吗？”</td><td>解决疑问</td><td>痛点+方案（第2-3屏）</td></tr>
+                            <tr><td>“凭什么相信你？”</td><td>提供证据</td><td>认证+场景（第4-5屏）</td></tr>
+                            <tr><td>“还有什么不放心的？”</td><td>消除顾虑</td><td>胜选+服务+行动（第6-8屏）</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>总结</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>逻辑</th><th>公式</th><th>核心驱动力</th><th>对应屏位</th></tr>
+                            <tr><td>建立认知</td><td>品牌身份+定位+视觉</td><td>让用户知道“你是谁”</td><td>第1屏</td></tr>
+                            <tr><td>解决疑问</td><td>痛点+方案</td><td>让用户确认“能解决我的问题”</td><td>第2-3屏</td></tr>
+                            <tr><td>提供证据</td><td>认证+技术+场景</td><td>让用户相信“你说的是真的”</td><td>第4-5屏</td></tr>
+                            <tr><td>消除顾虑</td><td>胜选+服务+行动</td><td>让用户放心“不会有坑”</td><td>第6-8屏</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-blue">
+                        <strong>使用方式：</strong><br />
+                        紧急需求 → 直接抄上述方案，替换品类和参数<br />
+                        日常需求 → 理解4种逻辑的递进关系，检查每屏是否完成任务<br />
+                        创意需求 → 跨屏逻辑组合（如在“解决疑问”中混入“建立认知”的元素）
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-02 品牌通版 -->
+                <div class="card" id="sop-02">
+                    <div class="card-tag">SOP-02 · 固定内容</div>
+                    <div class="card-title">品牌通版策划案</div>
+                    <p><strong>适用</strong>：品牌旗舰店首页 ｜ <strong>平台</strong>：天猫 / 京东 ｜ <strong>参照阶段</strong>：①立认知</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>瞥</strong></td><td>扫视页面整体</td><td>“这个牌子什么档次？”</td><td>视觉上有高端感</td></tr>
+                            <tr><td><strong>问</strong></td><td>寻找品牌信息</td><td>“做了多久？什么来头？”</td><td>品牌历史+实力</td></tr>
+                            <tr><td><strong>疑</strong></td><td>判断可信度</td><td>“凭什么信你？”</td><td>行业地位+认证</td></tr>
+                            <tr><td><strong>选</strong></td><td>寻找购买理由</td><td>“能为我做什么？”</td><td>产品品类+服务承诺</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>我是谁 → 我相信什么 → 我凭什么被信任 → 我能为你做什么</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>屏位</th><th>逻辑</th><th>内容</th></tr>
+                            <tr><td><strong>第1屏</strong></td><td>我是谁</td><td>画面：德国汉诺威总部+产品氛围。文案：“德国柏曼，高端顶流+光品质” / “58年不跨界，只做灯”</td></tr>
+                            <tr><td><strong>第2屏</strong></td><td>我是谁</td><td>1968年创立 · 德国汉诺威总部 · 40+国家销售 · 中国高端灯具出货量第一</td></tr>
+                            <tr><td><strong>第3屏</strong></td><td>我相信什么</td><td>FRESH AIR：F功能·R社会责任·E生态友好·S安全·H健康 / A氛围·I明亮·R松弛</td></tr>
+                            <tr><td><strong>第4屏</strong></td><td>凭什么被信任</td><td>行业地位（连续数十年欧洲头部/中国出货量第一）+ 权威认证（UL/TÜV/IEC/3C）+ 标准制定（参编多项国标/团标）</td></tr>
+                            <tr><td><strong>第5屏</strong></td><td>能为你做什么</td><td>三大品类：护眼灯·家居灯·家装灯 全系列展示</td></tr>
+                            <tr><td><strong>第6屏</strong></td><td>能为你做什么</td><td>12年质保 · 专属安装 · 免费设计 · 流光计划</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>屏位</th><th>用户心理</th><th>为什么这样设计</th></tr>
+                            <tr><td>第1屏</td><td>“这是谁？什么档次？”</td><td>3秒内必须建立“德国高端品牌”认知</td></tr>
+                            <tr><td>第2屏</td><td>“有多大？什么来头？”</td><td>数据（1968、40+、第一）建立“大品牌”印象</td></tr>
+                            <tr><td>第3屏</td><td>“你相信什么？”</td><td>FRESH AIR是完整理念体系，每个字母有具体含义</td></tr>
+                            <tr><td>第4屏</td><td>“凭什么信你？”</td><td>行业地位+权威认证+标准制定，三层证据</td></tr>
+                            <tr><td>第5屏</td><td>“能为你做什么？”</td><td>三大品类覆盖不同需求</td></tr>
+                            <tr><td>第6屏</td><td>“为什么现在选你？”</td><td>四个服务承诺都是可感知、可验证的</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>变体</th><th>替换内容</th><th>示例</th></tr>
+                            <tr><td>变体A</td><td>第5屏展示方式</td><td>按空间场景（客厅/卧室/书房）替代按品类展示</td></tr>
+                            <tr><td>变体B</td><td>第6屏呈现方式</td><td>按用户决策顺序（设计→安装→质保→测光）重新排列</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-03 品牌二级页 -->
+                <div class="card" id="sop-03">
+                    <div class="card-tag">SOP-03 · 固定内容</div>
+                    <div class="card-title">品牌二级页策划案</div>
+                    <p><strong>适用</strong>：品类集合页 ｜ <strong>平台</strong>：天猫 / 京东 ｜ <strong>参照阶段</strong>：②做教育 + ③种场景</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>认</strong></td><td>确认品类价值</td><td>“这个品类能解决什么问题？”</td><td>建立品类认知</td></tr>
+                            <tr><td><strong>看</strong></td><td>评估品牌实力</td><td>“柏曼在这个品类上做得怎么样？”</td><td>展示品类解决方案</td></tr>
+                            <tr><td><strong>选</strong></td><td>锁定购买范围</td><td>“我该选哪个产品？”</td><td>展示产品矩阵</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>品类认知 → 品类价值 → 柏曼方案 → 产品矩阵</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <p><strong>护眼灯 · 品牌二级页</strong></p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>屏位</th><th>内容</th></tr>
+                            <tr><td>第1屏</td><td>“德国护眼科技，守护孩子视力” + 孩子在自然光感下专注学习的画面</td></tr>
+                            <tr><td>第2屏</td><td>“孩子写作业揉眼、歪头、离书本越来越近……普通台灯可能正在伤害孩子的视力。”</td></tr>
+                            <tr><td>第3屏</td><td>国AA级照度 · 全光谱仿生自然光 · 无蓝光危害 · 显色指数Ra≥95</td></tr>
+                            <tr><td>第4屏</td><td>紫光全光谱技术解析 + 南德TÜV认证 + 国AA认证 + 参编国标</td></tr>
+                            <tr><td>第5屏</td><td>PURE系列各系产品展示</td></tr>
+                            <tr><td>第6屏</td><td>12年质保 + 专属安装 + 免费设计 + 流光计划</td></tr>
+                        </table>
+                    </div>
+
+                    <p><strong>家居灯 · 品牌二级页</strong></p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>屏位</th><th>内容</th></tr>
+                            <tr><td>第1屏</td><td>“德国设计美学，点亮品质家居” + 柏曼吊灯在高级家居环境中的氛围图</td></tr>
+                            <tr><td>第2屏</td><td>“买了一盏好看的灯，装在家里却总感觉差点意思……灯和家装风格不搭，再贵的灯也白买。”</td></tr>
+                            <tr><td>第3屏</td><td>包豪斯原创设计 · 全金属材质 · 三重耐看标准 · 色温可调</td></tr>
+                            <tr><td>第4屏</td><td>德国原创设计理念 + 材质工艺解读 + 设计奖项认证</td></tr>
+                            <tr><td>第5屏</td><td>PURE系列各系产品展示</td></tr>
+                            <tr><td>第6屏</td><td>12年质保 + 专属安装 + 免费设计 + 流光计划</td></tr>
+                        </table>
+                    </div>
+
+                    <p><strong>家装灯 · 品牌二级页</strong></p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>屏位</th><th>内容</th></tr>
+                            <tr><td>第1屏</td><td>“德国精工照明，全屋好光方案” + 全屋无主灯设计实拍效果图</td></tr>
+                            <tr><td>第2屏</td><td>“装修到装灯环节才发现尺寸不对、光束角不会选……灯光设计没做好，几十万的装修全白费。”</td></tr>
+                            <tr><td>第3屏</td><td>深度防眩设计 · 多种光束角可选 · 全光谱高显指 · 科学配光方案</td></tr>
+                            <tr><td>第4屏</td><td>全屋灯光方案能力 + 安装尺寸精确到毫米 + 专属安装团队</td></tr>
+                            <tr><td>第5屏</td><td>PURE系列各系产品展示</td></tr>
+                            <tr><td>第6屏</td><td>12年质保 + 专属安装 + 免费设计 + 流光计划</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>变体</th><th>替换内容</th><th>示例</th></tr>
+                            <tr><td>变体A</td><td>第5屏展示方式</td><td>按场景分类（学习/阅读/床头）替代按系列分类</td></tr>
+                            <tr><td>变体B</td><td>品类专属模块</td><td>护眼灯→光健康科普角；家居灯→设计师说；家装灯→全屋方案</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-04 主图 -->
+                <div class="card" id="sop-04">
+                    <div class="card-tag">SOP-04 · 固定内容</div>
+                    <div class="card-title">主图策划案</div>
+                    <p><strong>适用</strong>：商品列表页 ｜ <strong>平台</strong>：天猫 / 京东 ｜ <strong>参照阶段</strong>：③种场景 + ④促决策</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>划</strong></td><td>快速划过</td><td>“有吸引我的吗？”</td><td>第1张图让他停下来</td></tr>
+                            <tr><td><strong>停</strong></td><td>多看了几秒</td><td>“这个好像不错？”</td><td>第2-4张让他产生兴趣</td></tr>
+                            <tr><td><strong>点</strong></td><td>决定点击</td><td>“值得进去看看”</td><td>第5-10张强化“值得点”的认知</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 10张主图的逻辑分工</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>图位</th><th>逻辑</th><th>功能</th><th>用户心理</th></tr>
+                            <tr><td>第1张</td><td>吸引注意</td><td>让用户停下来</td><td>“咦，这个有点意思”</td></tr>
+                            <tr><td>第2张</td><td>建立认知</td><td>告诉核心卖点</td><td>“哦，原来是这个好”</td></tr>
+                            <tr><td>第3张</td><td>解决疑问</td><td>展示痛点解决方案</td><td>“能解决我的问题吗？”</td></tr>
+                            <tr><td>第4张</td><td>提供证据</td><td>信任背书</td><td>“凭什么信你？”</td></tr>
+                            <tr><td>第5张</td><td>深化认知</td><td>场景展示</td><td>“用在我家什么样？”</td></tr>
+                            <tr><td>第6张</td><td>深化认知</td><td>产品细节</td><td>“做工怎么样？”</td></tr>
+                            <tr><td>第7张</td><td>提供证据</td><td>参数可视化</td><td>“数据是真的吗？”</td></tr>
+                            <tr><td>第8张</td><td>消除顾虑</td><td>服务保障</td><td>“买了有人管吗？”</td></tr>
+                            <tr><td>第9张</td><td>消除顾虑</td><td>竞争胜选</td><td>“为什么选你不选别人？”</td></tr>
+                            <tr><td>第10张</td><td>促成行动</td><td>促单引导</td><td>“现在就买”</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>图位</th><th>功能</th><th>护眼灯</th><th>家居灯</th><th>家装灯</th></tr>
+                            <tr><td>第1张</td><td>吸引点击</td><td>“国AA级护眼，德国标准认证”</td><td>“德国设计，点亮品质家居”</td><td>“全屋好光，一套搞定”</td></tr>
+                            <tr><td>第2张</td><td>核心卖点</td><td>“12年不用换灯的护眼灯”</td><td>“三重耐看，越看越好看”</td><td>“深度防眩，见光不见灯”</td></tr>
+                            <tr><td>第3张</td><td>痛点解决</td><td>普通vs柏曼对比</td><td>风格不搭vs完美融合</td><td>普通射灯vs柏曼防眩</td></tr>
+                            <tr><td>第4张</td><td>信任背书</td><td>国AA+TÜV+12年质保+参编国标</td><td>国AA+TÜV+12年质保+参编国标</td><td>国AA+TÜV+12年质保+参编国标</td></tr>
+                            <tr><td>第5张</td><td>场景展示</td><td>孩子学习场景</td><td>客厅/餐厅家居场景</td><td>全屋灯光实拍效果</td></tr>
+                            <tr><td>第6张</td><td>产品细节</td><td>全金属灯体/人体工学</td><td>高品质材质/工艺细节</td><td>精密光学结构/散热设计</td></tr>
+                            <tr><td>第7张</td><td>参数可视化</td><td>Ra≥95通俗解读</td><td>色温可调场景化说明</td><td>光束角/照度可视化</td></tr>
+                            <tr><td>第8张</td><td>服务保障</td><td>12年质保+专属安装+免费设计</td><td>12年质保+专属安装+免费设计</td><td>12年质保+专属安装+免费设计</td></tr>
+                            <tr><td>第9张</td><td>竞争胜选</td><td>“为你做到12年性能不衰减”</td><td>“为你做到关灯好看开灯更好看”</td><td>“为你做到科学配光不刺眼”</td></tr>
+                            <tr><td>第10张</td><td>促单行动</td><td>限时权益+免费领取方案+立即购买</td><td>限时权益+免费领取方案+立即购买</td><td>限时权益+免费领取方案+立即购买</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="box box-gold">
+                        <p><strong>第1张主图的“三秒法则”</strong></p>
+                        <p>以护眼灯为例：“国AA级护眼，德国标准认证”</p>
+                        <ul>
+                            <li>“国AA级”——给标准，用户知道这是最高等级</li>
+                            <li>“护眼”——给场景，宝妈看到立刻觉得“跟我孩子有关”</li>
+                            <li>“德国标准认证”——给信任，用户对“德国”有天然品质信任</li>
+                        </ul>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>变体</th><th>替换内容</th><th>示例</th></tr>
+                            <tr><td>变体A</td><td>第1张标题公式</td><td>利益点直给型：“12年不用换灯的护眼灯” / 痛点解决型：“告别频闪，从这盏灯开始”</td></tr>
+                            <tr><td>变体B</td><td>第9张胜选角度</td><td>耐用度/光品质/整体使用成本，三种角度替换</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-05 主图视频 -->
+                <div class="card" id="sop-05">
+                    <div class="card-tag">SOP-05 · 固定内容</div>
+                    <div class="card-title">主图视频脚本</div>
+                    <p><strong>时长</strong>：15-30秒 ｜ <strong>平台</strong>：天猫 / 京东 ｜ <strong>参照阶段</strong>：③种场景 + ④促决策</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>瞟</strong></td><td>页面自动播放</td><td>“什么画面？”</td><td>3秒内用视觉抓住他</td></tr>
+                            <tr><td><strong>停</strong></td><td>决定继续看</td><td>“这个跟我有关吗？”</td><td>让他觉得“跟我有关”</td></tr>
+                            <tr><td><strong>看</strong></td><td>看完视频</td><td>“有什么用？”</td><td>讲清楚1个核心卖点</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>钩子（0-3s）→ 卖点演示（3-20s）→ 信任背书（20-25s）→ 行动引导（25-30s）</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>时间段</th><th>画面</th><th>台词</th><th>字幕</th></tr>
+                            <tr><td>0-3s</td><td>孩子揉眼睛特写</td><td>“孩子写作业总揉眼睛？”</td><td>揉眼特写</td></tr>
+                            <tr><td>3-8s</td><td>柏曼台灯亮相，灯光洒在书本上</td><td>“试试柏曼护眼灯，国AA级照度。”</td><td>国AA级照度</td></tr>
+                            <tr><td>8-12s</td><td>绘本在灯光下颜色鲜艳</td><td>“显色指数Ra≥95，颜色真实不费眼。”</td><td>Ra≥95</td></tr>
+                            <tr><td>12-15s</td><td>品牌标板</td><td>“科学用光，用好光。德国柏曼。”</td><td>德国柏曼</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="box box-gold">
+                        <strong>钩子用痛点提问（0-3s）</strong>：“揉眼睛”是宝妈能立刻代入的画面<br />
+                        <strong>只讲1个卖点（3-20s）</strong>：15秒讲3个卖点，用户1个都记不住<br />
+                        <strong>用视觉证明（8-12s）</strong>：“颜色真实”靠画面让用户自己看到差异
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>变体</th><th>替换内容</th><th>示例</th></tr>
+                            <tr><td>变体A</td><td>钩子写法</td><td>反常识结论：“90%的台灯光线不达标” / 对比反差：“关灯。开灯。区别在哪？”</td></tr>
+                            <tr><td>变体B</td><td>品类差异</td><td>家居灯钩子：“关灯。开灯。同一个客厅。” / 家装灯钩子：“装修最后一步，最容易被坑。”</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-06 微详情视频 -->
+                <div class="card" id="sop-06">
+                    <div class="card-tag">SOP-06 · 固定内容</div>
+                    <div class="card-title">微详情视频脚本</div>
+                    <p><strong>时长</strong>：30-60秒 ｜ <strong>平台</strong>：天猫 / 京东 ｜ <strong>参照阶段</strong>：②做教育 + ③种场景 + ④促决策</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>点</strong></td><td>主动点击播放</td><td>“我想多了解一下”</td><td>内容要有深度</td></tr>
+                            <tr><td><strong>看</strong></td><td>完整观看</td><td>“这个真的好吗？”</td><td>建立信任</td></tr>
+                            <tr><td><strong>动</strong></td><td>产生购买意向</td><td>“好像还不错”</td><td>引导下单</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>钩子（0-3s）→ 痛点+科普（3-15s）→ 解决方案（15-30s）→ 场景沉浸（30-45s）→ 信任背书（45-55s）→ 行动号召（55-60s）</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>时间段</th><th>画面</th><th>台词</th><th>字幕</th></tr>
+                            <tr><td>0-3s</td><td>昏暗台灯下孩子揉眼睛</td><td>“90%家长不知道，普通台灯可能伤眼。”</td><td>90%不知道</td></tr>
+                            <tr><td>3-15s</td><td>频闪/蓝光/照度不均的科普演示</td><td>“普通台灯频闪、蓝光超标、照度不均……”</td><td>三大隐患</td></tr>
+                            <tr><td>15-30s</td><td>柏曼紫光全光谱技术展示</td><td>“柏曼护眼灯，紫光全光谱仿生自然光技术。”</td><td>全光谱</td></tr>
+                            <tr><td>30-45s</td><td>孩子学习场景</td><td>“用了三个月，孩子写作业再也不揉眼了。”</td><td>真实效果</td></tr>
+                            <tr><td>45-55s</td><td>品牌背书（12年质保+认证）</td><td>“12年性能质保，一盏灯管12年。”</td><td>12年质保</td></tr>
+                            <tr><td>55-60s</td><td>行动引导</td><td>“为孩子的视力投资，现在下单。”</td><td>立即购买</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="box box-gold">
+                        <strong>微详情与主图视频的核心差异</strong>
+                        <ul>
+                            <li>主图视频（15-30s）：快，1个核心卖点打透</li>
+                            <li>微详情视频（30-60s）：慢，可展开讲痛点+科普+场景</li>
+                        </ul>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>品类</th><th>痛点+科普（3-15s）</th><th>场景沉浸（30-45s）</th></tr>
+                            <tr><td>护眼灯</td><td>光健康知识（频闪/蓝光/照度）</td><td>孩子学习场景+家长证言</td></tr>
+                            <tr><td>家居灯</td><td>普通灯vs好灯的差异</td><td>客厅/餐厅氛围实拍</td></tr>
+                            <tr><td>家装灯</td><td>光束角/防眩科普</td><td>全屋实装效果</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!-- ========================================================== -->
+                <!-- 七、灵活内容SOP -->
+                <h2 id="sec-flex">七、灵活内容SOP</h2>
+                <p style="margin-bottom:16px;"><strong>定义</strong>：按不同目的阶段产出不同版本，策划人员根据使用场景选取对应版本。</p>
+
+                <!-- ========================================================== -->
+                <!-- SOP-07 广告图 -->
+                <div class="card" id="sop-07">
+                    <div class="card-tag">SOP-07 · 灵活内容</div>
+                    <div class="card-title">广告图策划案</div>
+                    <p><strong>适用</strong>：天猫/京东站内广告位、信息流 ｜ <strong>参照阶段</strong>：按阶段投放</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>刷</strong></td><td>快速划过信息流</td><td>“什么内容？”</td><td>不到1秒抓住他</td></tr>
+                            <tr><td><strong>停</strong></td><td>被吸引停下</td><td>“跟我有关吗？”</td><td>让他觉得“有关”</td></tr>
+                            <tr><td><strong>点</strong></td><td>点击广告</td><td>“去看看”</td><td>给他一个理由点击</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>视觉冲击 + 核心文案 + 行动按钮</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>阶段</th><th>视觉重心</th><th>核心文案</th><th>行动按钮</th></tr>
+                            <tr><td>①立认知</td><td>品牌Logo+产品+整体氛围</td><td>“德国柏曼，58年不跨界只做灯”</td><td>了解品牌</td></tr>
+                            <tr><td>②做教育</td><td>参数可视化+图卡</td><td>“3个数字看懂护眼灯怎么选”</td><td>查看详情</td></tr>
+                            <tr><td>③种场景</td><td>大图展示实拍场景</td><td>“原来家里的灯光可以这么舒服”</td><td>看看效果</td></tr>
+                            <tr><td>④促决策</td><td>产品+核心卖点+价格</td><td>“12年不用换灯的护眼灯”</td><td>立即抢购</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="box box-gold">
+                        <strong>视觉重心随阶段变化</strong>：认知期关心“谁”，教育期关心“什么”，场景期关心“什么样”，决策期关心“多少钱”<br />
+                        <strong>按钮文案逐级递进</strong>：了解→查看→看看→抢购，行动成本逐级递增
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>切换</th><th>替换文案</th><th>替换按钮</th></tr>
+                            <tr><td>立认知→做教育</td><td>品牌主张→知识点</td><td>了解品牌→查看详情</td></tr>
+                            <tr><td>做教育→种场景</td><td>知识点→氛围感</td><td>查看详情→看看效果</td></tr>
+                            <tr><td>种场景→促决策</td><td>氛围感→利益点</td><td>看看效果→立即抢购</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-08 直播 -->
+                <div class="card" id="sop-08">
+                    <div class="card-tag">SOP-08 · 灵活内容</div>
+                    <div class="card-title">直播脚本</div>
+                    <p><strong>时长</strong>：2小时/场 ｜ <strong>平台</strong>：天猫/京东/抖音 ｜ <strong>参照阶段</strong>：③种场景 + ④促决策</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>进</strong></td><td>进入直播间</td><td>“在讲什么？”</td><td>3秒内让他知道主题</td></tr>
+                            <tr><td><strong>留</strong></td><td>停留观看</td><td>“跟我有关吗？”</td><td>内容让他觉得有价值</td></tr>
+                            <tr><td><strong>信</strong></td><td>建立信任</td><td>“这个主播靠谱吗？”</td><td>专业度+真实感</td></tr>
+                            <tr><td><strong>买</strong></td><td>下单购买</td><td>“值得买吗？”</td><td>给理由+给紧迫感</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>暖场 → 爆款讲解 → 产品演示 → 用户答疑 → 第二款产品 → 互动福利 → 逼单收尾</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>时间段</th><th>模块</th><th>说明</th></tr>
+                            <tr><td>0-10min</td><td>暖场+福利预告</td><td>欢迎+本场福利+产品预告</td></tr>
+                            <tr><td>10-30min</td><td>爆款讲解</td><td>核心产品深度讲解（主体性叙事）</td></tr>
+                            <tr><td>30-50min</td><td>产品演示</td><td>功能实测/对比演示/场景展示</td></tr>
+                            <tr><td>50-70min</td><td>用户答疑</td><td>评论区问题实时回应</td></tr>
+                            <tr><td>70-90min</td><td>第二款产品</td><td>进入第二个产品的讲解</td></tr>
+                            <tr><td>90-110min</td><td>互动+福利</td><td>抽奖/限时权益释放</td></tr>
+                            <tr><td>110-120min</td><td>逼单+收尾</td><td>福利加码+倒计时+全店引导</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="box box-gold">
+                        <strong>爆款讲解模块（10-30min）的底层结构</strong>
+                        <p>痛点引入（1min）→ 卖点呈现（3min）→ 现场演示（2min）→ 信任背书（1min）→ 价格释放（1min）→ 促单（2min）</p>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>阶段</th><th>主题</th><th>内容侧重</th></tr>
+                            <tr><td>①立认知</td><td>“品牌溯源专场”</td><td>品牌故事、德国品质</td></tr>
+                            <tr><td>②做教育</td><td>“护眼3个参数必须懂”</td><td>光健康科普、选灯指南</td></tr>
+                            <tr><td>③种场景</td><td>“理想家的灯光设计”</td><td>场景搭配、灯光方案</td></tr>
+                            <tr><td>④促决策</td><td>“护眼灯怎么选不踩坑”</td><td>产品对比、测评、促单</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-09 小红书图文笔记 -->
+                <div class="card" id="sop-09">
+                    <div class="card-tag">SOP-09 · 灵活内容</div>
+                    <div class="card-title">小红书图文笔记策划案</div>
+                    <p><strong>适用</strong>：护眼灯 / 家居灯 / 家装灯 ｜ <strong>平台</strong>：小红书 ｜ <strong>参照阶段</strong>：按阶段发布</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>搜</strong></td><td>主动搜索信息</td><td>“我想解决一个问题”</td><td>给答案、给方法、给标准</td></tr>
+                            <tr><td><strong>刷</strong></td><td>被动接收推荐</td><td>“我想看点有意思的”</td><td>给画面、给情绪、给向往</td></tr>
+                            <tr><td><strong>晒</strong></td><td>主动分享生活</td><td>“我想被看见、被认同”</td><td>给共鸣、给表达素材</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-blue">
+                        <strong>目的阶段 ≠ 内容逻辑。</strong> 同“做教育”目的，搜索场景写“解答案”，推荐场景写“解认知”——前者解决“怎么选”，后者解决“原来我以前选错了”。
+                    </div>
+
+                    <h4>第二段 · 5种内容逻辑</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>逻辑</th><th>满足行为</th><th>核心驱动力</th><th>公式</th><th>适合阶段</th></tr>
+                            <tr><td><strong>①解答案</strong></td><td>搜</td><td>帮用户解决具体问题</td><td>提问→回答→依据→方案</td><td>②做教育</td></tr>
+                            <tr><td><strong>②解认知</strong></td><td>搜/刷</td><td>打破旧认知，建立新认知</td><td>误区→揭示→新认知→标准</td><td>②做教育</td></tr>
+                            <tr><td><strong>③造向往</strong></td><td>刷</td><td>激发拥有欲</td><td>理想状态→激发→可达成</td><td>③种场景</td></tr>
+                            <tr><td><strong>④做判断</strong></td><td>搜/刷</td><td>帮用户做决定</td><td>纠结→对比→结论→理由</td><td>④促决策</td></tr>
+                            <tr><td><strong>⑤共情感</strong></td><td>刷/晒</td><td>引发共鸣、建立信任</td><td>经历→共鸣→信任→品牌</td><td>⑤扩口碑</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第三段 · 逻辑一：解答案</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：用户提问 → 直接回答 → 提供依据 → 给出可执行方案</p>
+                    <p><strong>标题</strong>：护眼灯显色指数是什么？一篇讲清楚</p>
+                    <div class="quote-block">
+                        <p>显色指数（Ra）是衡量灯光还原物体真实颜色的能力。太阳光是Ra100，数值越高，颜色越真实。</p>
+                        <p>国家规定读写台灯的显色指数不得低于Ra80。但“合格”和“好用”是两码事。Ra80的光线照在书本上，颜色发白发灰，眼睛更费力。柏曼护眼灯的显色指数做到Ra≥95，接近自然光。</p>
+                        <p>选购时记住两个数：合格线Ra≥80（国标），好光线Ra≥95（柏曼标准）。回家看看你家台灯的参数标签，Ra低于80的，建议换掉。评论区留“Ra”，我把检测方法发给你。</p>
+                    </div>
+
+                    <h4>第四段 · 逻辑二：解认知</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：指出常见误区 → 揭示原因 → 建立正确认知 → 给出新标准</p>
+                    <p><strong>标题</strong>：台灯越亮越好？90%的家长都搞反了</p>
+                    <div class="quote-block">
+                        <p>很多家长觉得护眼灯越亮越好。实际上这是一个误区。台灯的核心不是“亮”，而是“均匀”和“精准”。光线够亮但分布不均，孩子在灯下写作业时，书本中间亮、四周暗，瞳孔需要不断调节适应，反而更容易累。</p>
+                        <p>国标对护眼灯的“照度均匀度”有明确的等级要求——AA级是目前最高等级。柏曼护眼灯做到国AA级照度，光线均匀覆盖整张书桌。不是更亮，是更均匀。</p>
+                        <p>下次选灯，先看照度等级：A级是及格，AA级是好光。评论区留“AA”，我把照度检测方法发给你。</p>
+                    </div>
+
+                    <h4>第五段 · 逻辑三：造向往</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：呈现理想状态 → 激发拥有欲 → 让用户看到“我也可以”</p>
+                    <p><strong>标题</strong>：晚上6点的客厅，被这盏灯治愈了</p>
+                    <div class="quote-block">
+                        <p>搬进新家半年，客厅一直用的是开发商配的吸顶灯。冷白、刺眼、没有任何氛围。每天晚上回家，打开灯的一瞬间，感觉像进了办公室。</p>
+                        <p>直到换了这盏柏曼吊灯。开灯的那一刻，整个客厅的光线都变了。不是直直打下来的刺眼白光，是均匀铺开的、温暖柔和的光。墙面的质感出来了，沙发的颜色变好看了，连绿植都显得更绿了。</p>
+                        <p>我终于明白，什么是“灯光是家的滤镜”。以前下班不想回家，现在下班就想快点开灯、窝在沙发里。一盏好灯，真的能改变一个家的情绪。</p>
+                    </div>
+
+                    <h4>第六段 · 逻辑四：做判断</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：提出纠结 → 对比分析 → 给出明确结论 → 说明理由</p>
+                    <p><strong>标题</strong>：千元护眼灯和百元台灯，区别到底在哪？</p>
+                    <div class="quote-block">
+                        <p>给孩子选护眼灯，从几百到几千都有，区别到底在哪？我做了3组实测，结论非常明确。</p>
+                        <p><strong>光照范围：</strong>普通台灯（300元级）中心亮边缘暗，柏曼（千元级）整张书桌亮度均匀。<strong>频闪：</strong>普通台灯用手机摄像头能看到条纹滚动，柏曼完全无频闪。<strong>显色指数：</strong>普通台灯Ra80左右颜色发白发灰，柏曼Ra≥95颜色真实饱满。</p>
+                        <p><strong>结论：</strong>预算有限偶尔用灯→百元级够用；孩子每天用灯超2小时→千元级是刚需；追求光品质→柏曼。评论区留“孩子年龄+每天用灯时长”，我帮你判断。</p>
+                    </div>
+
+                    <h4>第七段 · 逻辑五：共情感</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：分享真实经历 → 引发情感共鸣 → 建立信任 → 自然提及品牌</p>
+                    <p><strong>标题</strong>：用了半年柏曼，我来说点实话</p>
+                    <div class="quote-block">
+                        <p><strong>好的方面：</strong>最明显的变化是孩子写作业不揉眼睛了。显色指数Ra95确实不一样，绘本上的颜色看起来舒服多了。</p>
+                        <p><strong>不够好的方面：</strong>价格确实不便宜。如果预算紧张，不用咬牙买。底座比较重，放在书桌上占地方。</p>
+                        <p><strong>总结：</strong>如果孩子每天用灯超过2小时，这笔投资值得。如果只是偶尔用，不用买这么贵的。理性消费，买适合自己的就好。</p>
+                    </div>
+
+                    <h4>第八段 · 逻辑之间的关系</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>场景</th><th>应该用哪个逻辑</th><th>为什么</th></tr>
+                            <tr><td>用户搜“护眼灯怎么选”</td><td>解答案</td><td>他带着具体问题来，你要给答案</td></tr>
+                            <tr><td>用户搜“护眼灯是不是智商税”</td><td>解认知</td><td>他在质疑价值，你要建立认知</td></tr>
+                            <tr><td>用户刷家居内容</td><td>造向往</td><td>他在“逛”不是在“搜”，你要激发向往</td></tr>
+                            <tr><td>用户刷测评内容</td><td>做判断</td><td>他在“比较”不是在“搜”，你要帮决策</td></tr>
+                            <tr><td>用户在评论区说“我家也这样”</td><td>共情感</td><td>他已经有共鸣了，用共情逻辑建立更深链接</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>总结</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>逻辑</th><th>公式</th><th>核心驱动力</th><th>适合阶段</th></tr>
+                            <tr><td>解答案</td><td>提问→回答→依据→方案</td><td>帮用户解决具体问题</td><td>②做教育</td></tr>
+                            <tr><td>解认知</td><td>误区→揭示→新认知→标准</td><td>打破旧认知，建立新标准</td><td>②做教育</td></tr>
+                            <tr><td>造向往</td><td>理想→激发→可达成</td><td>激发向往感、拥有欲</td><td>③种场景</td></tr>
+                            <tr><td>做判断</td><td>纠结→对比→结论→理由</td><td>帮用户做决定</td><td>④促决策</td></tr>
+                            <tr><td>共情感</td><td>经历→共鸣→信任→品牌</td><td>让用户觉得“你懂我”</td><td>⑤扩口碑</td></tr>
+                        </table>
+                    </div>
+                    <div class="box box-gold">
+                        <strong>跨逻辑切换才是真正的举一反三。</strong> 同一件事（如“柏曼护眼灯”），可以写成5种完全不同的内容：
+                        <ul>
+                            <li>解答案：“护眼灯显色指数怎么看”</li>
+                            <li>解认知：“护眼灯越亮越好？错了”</li>
+                            <li>造向往：“晚上孩子写作业的画面，被这盏灯温柔了”</li>
+                            <li>做判断：“千元护眼灯和百元台灯，区别在哪”</li>
+                            <li>共情感：“用了半年柏曼，说点实话”</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-10 小红书视频笔记 -->
+                <div class="card" id="sop-10">
+                    <div class="card-tag">SOP-10 · 灵活内容</div>
+                    <div class="card-title">小红书视频笔记脚本</div>
+                    <p><strong>适用</strong>：护眼灯 / 家居灯 / 家装灯 ｜ <strong>平台</strong>：小红书 ｜ <strong>时长</strong>：30-60秒 ｜ <strong>参照阶段</strong>：按阶段发布</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>对比项</th><th>图文笔记</th><th>视频笔记</th></tr>
+                            <tr><td>信息接收方式</td><td>主动阅读</td><td>被动接收画面+声音</td></tr>
+                            <tr><td>节奏控制</td><td>用户自己控制</td><td>脚本控制，3-5秒切换</td></tr>
+                            <tr><td>记忆点</td><td>文字金句</td><td>画面+声音+字幕三重强化</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 5种内容逻辑</h4>
+                    <p>与图文笔记一样，小红书视频笔记也遵循5种独立的内容逻辑。以下是“解认知”和“造向往”的完整方案。</p>
+
+                    <h4>第三段 · 逻辑一：解认知</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：指出常见误区 → 揭示原因 → 建立正确认知 → 给出新标准</p>
+                    <p><strong>标题</strong>：台灯越亮越好？90%的家长都搞反了</p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>镜号</th><th>时长</th><th>画面</th><th>台词</th><th>字幕</th></tr>
+                            <tr><td>01</td><td>0-4s</td><td>昏暗台灯下孩子揉眼睛</td><td>“孩子写作业揉眼睛，你以为只是困了？”</td><td>揉眼特写</td></tr>
+                            <tr><td>02</td><td>4-8s</td><td>博主出镜</td><td>“其实90%的台灯，光线都不达标。”</td><td>90%不达标</td></tr>
+                            <tr><td>03</td><td>8-18s</td><td>手机拍普通台灯频闪</td><td>“这是频闪。用手机摄像头一看就知道。”</td><td>频闪检测</td></tr>
+                            <tr><td>04</td><td>18-28s</td><td>照度计测柏曼</td><td>“国标500lux，这盏灯做到了800以上。”</td><td>国标500</td></tr>
+                            <tr><td>05</td><td>28-38s</td><td>绘本颜色对比</td><td>“Ra80 vs Ra95，颜色差多少，你自己看。”</td><td>Ra95</td></tr>
+                            <tr><td>06</td><td>38-45s</td><td>博主总结</td><td>“记住三个数：照度≥500，显色≥90，无频闪。”</td><td>选灯三要素</td></tr>
+                            <tr><td>07</td><td>45-48s</td><td>品牌标板</td><td>“科学用光，用好光。德国柏曼。”</td><td>品牌标板</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 逻辑二：造向往</h4>
+                    <p><strong>公式（本逻辑专用）</strong>：呈现理想状态 → 激发拥有欲 → 让用户看到“我也可以”</p>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>时间段</th><th>画面</th><th>台词</th></tr>
+                            <tr><td>0-3s</td><td>关灯状态客厅全景</td><td>“这是晚上6点的客厅。”</td></tr>
+                            <tr><td>3-5s</td><td>手指按下开关</td><td>“啪——”</td></tr>
+                            <tr><td>5-15s</td><td>灯光亮起，客厅温暖氛围</td><td>“这是打开柏曼吊灯之后的客厅。没有主灯刺眼，只有均匀洒下来的温柔。”</td></tr>
+                            <tr><td>15-25s</td><td>女主坐在沙发上看书</td><td>“你发现了吗？灯光对了，整个人的状态都不一样了。”</td></tr>
+                            <tr><td>25-30s</td><td>产品特写+品牌标板</td><td>“德国柏曼，用光设计你的生活。”</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>变体</th><th>替换内容</th><th>适用阶段</th></tr>
+                            <tr><td>测评对比型</td><td>核心内容换“普通vs柏曼”对比</td><td>④促决策</td></tr>
+                            <tr><td>用户证言型</td><td>核心内容换“真实用户出镜”</td><td>⑤扩口碑</td></tr>
+                            <tr><td>剧情小短剧型</td><td>核心内容换“15秒痛点+15秒解决方案”</td><td>②③④</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-11 公众号 -->
+                <div class="card" id="sop-11">
+                    <div class="card-tag">SOP-11 · 灵活内容</div>
+                    <div class="card-title">公众号推文策划案</div>
+                    <p><strong>平台</strong>：公众号 ｜ <strong>参照阶段</strong>：按阶段发布</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>对比项</th><th>小红书笔记</th><th>公众号推文</th></tr>
+                            <tr><td>阅读时长</td><td>30秒-1分钟</td><td>5-10分钟</td></tr>
+                            <tr><td>内容深度</td><td>浅，快速阅读</td><td>深，完整叙事</td></tr>
+                            <tr><td>用户状态</td><td>刷</td><td>主动点开阅读</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>标题 → 开场（故事/场景，200字）→ 核心内容（500-800字）→ 产品植入（200-300字）→ 互动（100字）</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>阶段</th><th>内容方向</th><th>标题参考</th></tr>
+                            <tr><td>①立认知</td><td>品牌深度故事</td><td>“58年只做灯，德国柏曼的‘慢’哲学”</td></tr>
+                            <tr><td>②做教育</td><td>深度科普长文</td><td>“全光谱、显色指数、蓝光危害：一文读懂护眼灯”</td></tr>
+                            <tr><td>③种场景</td><td>家居灯光方案</td><td>“一个家的高级感，藏在灯光里”</td></tr>
+                            <tr><td>④促决策</td><td>产品深度测评</td><td>“12年不用换灯？柏曼护眼灯深度实测”</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>阶段</th><th>核心内容</th><th>配图类型</th></tr>
+                            <tr><td>①立认知</td><td>品牌历史+理念+行业地位</td><td>德国总部图+品牌历史图</td></tr>
+                            <tr><td>②做教育</td><td>知识点1+2+3（每个配图）</td><td>参数图+对比图+场景图</td></tr>
+                            <tr><td>③种场景</td><td>场景1+2+3实拍</td><td>场景实拍图</td></tr>
+                            <tr><td>④促决策</td><td>测评维度1+2+3+结论</td><td>对比图+数据图</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>变体</th><th>替换内容</th><th>示例</th></tr>
+                            <tr><td>变体A</td><td>头图类型</td><td>教育型→参数图+大字标题 / 场景型→氛围图+小字标题</td></tr>
+                            <tr><td>变体B</td><td>开场方式</td><td>故事型/数据型/场景型，三种开场替换</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-12 视频号 -->
+                <div class="card" id="sop-12">
+                    <div class="card-tag">SOP-12 · 灵活内容</div>
+                    <div class="card-title">视频号视频脚本</div>
+                    <p><strong>时长</strong>：30-60秒 ｜ <strong>平台</strong>：视频号 ｜ <strong>参照阶段</strong>：①立认知 + ③种场景</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>对比项</th><th>抖音</th><th>视频号</th></tr>
+                            <tr><td>分发逻辑</td><td>算法推荐</td><td>社交分发（朋友点赞/转发）</td></tr>
+                            <tr><td>用户预期</td><td>刷娱乐</td><td>刷朋友圈</td></tr>
+                            <tr><td>转发动机</td><td>“好笑”</td><td>“有共鸣”“有道理”</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>一个鲜明的观点 + 一段真实的故事 + 一个让人想转发的结尾</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>阶段</th><th>内容方向</th><th>标题参考</th><th>转发钩子</th></tr>
+                            <tr><td>①立认知</td><td>品牌形象/行业地位</td><td>“为什么德国人家的灯光就是不一样？”</td><td>“原来德国人家里都是这么配灯的。”</td></tr>
+                            <tr><td>②做教育</td><td>专家知识分享</td><td>“做了10年灯光设计，我最想分享的3个心得”</td><td>“装修中最容易被忽略的就是灯光。”</td></tr>
+                            <tr><td>③种场景</td><td>家居氛围短片</td><td>“晚上6点开灯那一刻，整个家都温柔了”</td><td>“这才是家该有的样子。”</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="box box-gold">
+                        <strong>转发钩子设计原则</strong>：用户转发不是因为“品牌很好”，而是因为“这个观点代表了我”或“这个信息对朋友有用”。
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>变体</th><th>标题公式</th><th>示例</th></tr>
+                            <tr><td>变体A</td><td>条件引导</td><td>“如果你家正在装修，建议看完这条视频”</td></tr>
+                            <tr><td>变体B</td><td>专家身份</td><td>“做了10年灯光设计，我最想分享的3个心得”</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ========================================================== -->
+                <!-- SOP-13 抖音 -->
+                <div class="card" id="sop-13">
+                    <div class="card-tag">SOP-13 · 灵活内容</div>
+                    <div class="card-title">抖音视频脚本</div>
+                    <p><strong>时长</strong>：15-30秒 ｜ <strong>平台</strong>：抖音 ｜ <strong>参照阶段</strong>：②做教育 + ③种场景</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户行为</th><th>本质</th><th>用户心理</th><th>你的内容要满足什么</th></tr>
+                            <tr><td><strong>划</strong></td><td>快速划过</td><td>“有意思吗？”</td><td>1秒内让他停下来</td></tr>
+                            <tr><td><strong>停</strong></td><td>继续观看</td><td>“然后呢？”</td><td>内容有吸引力</td></tr>
+                            <tr><td><strong>看</strong></td><td>看完</td><td>“学到了/被打动了”</td><td>提供价值</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 核心逻辑</h4>
+                    <div class="box box-gold">
+                        <strong>1秒钩子 + 1个核心内容 + 结尾引导</strong>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>阶段</th><th>风格</th><th>1秒钩子</th><th>核心内容</th><th>结尾引导</th></tr>
+                            <tr><td>②做教育</td><td>知识快剪</td><td>“90%家长不知道的灯光真相”</td><td>1个知识点+产品植入</td><td>“收藏这条，选灯不踩坑”</td></tr>
+                            <tr><td>③种场景</td><td>生活场景</td><td>“晚上开灯那一刻，被治愈了”</td><td>场景氛围+品牌露出</td><td>“你家灯光也可以这样”</td></tr>
+                            <tr><td>④促决策</td><td>测评对比</td><td>“千元护眼灯和百元台灯区别在哪”</td><td>对比+结论+引导</td><td>“评论区告诉你答案”</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="box box-gold">
+                        <p><strong>1秒钩子的3种写法：</strong></p>
+                        <ul>
+                            <li><strong>反常识结论</strong>：“台灯居然会伤眼？”——打破既有认知，产生好奇心</li>
+                            <li><strong>痛点提问</strong>：“你家的灯光真的舒服吗？”——产生自我怀疑</li>
+                            <li><strong>结果前置</strong>：“用了3个月，眼睛不干了。”——直接给结果，想知道“用了什么”</li>
+                        </ul>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="box box-gold">
+                        <p><strong>快速公式：</strong>钩子（1s）+ 场景展示（5s）+ 核心卖点（10s）+ 信任背书（5s）+ 引导（3s）= 24s</p>
+                    </div>
+                </div>
+
+
+                <!-- ========================================================== -->
+                <!-- 八、响应内容SOP -->
+                <h2 id="sec-response">八、响应内容SOP</h2>
+                <p style="margin-bottom:16px;"><strong>定义</strong>：被动触发的响应式内容（售前/售后咨询）。</p>
+
+                <!-- ========================================================== -->
+                <!-- SOP-14 售前售后话术 -->
+                <div class="card" id="sop-14">
+                    <div class="card-tag">SOP-14 · 响应内容</div>
+                    <div class="card-title">售前售后话术</div>
+                    <p><strong>参照阶段</strong>：售前→④促决策 / 售后→⑤扩口碑</p>
+
+                    <h4>第一段 · 本质认知</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>用户状态</th><th>用户在想什么</th><th>你的沟通目标</th></tr>
+                            <tr><td>①这是什么</td><td>“我不懂这个概念”</td><td>用通俗语言翻译</td></tr>
+                            <tr><td>②真的有用吗</td><td>“我不确定能不能解决”</td><td>用证据和场景证明</td></tr>
+                            <tr><td>③适合我吗</td><td>“我不知道该选哪个”</td><td>根据情况给建议</td></tr>
+                            <tr><td>④怎么这么贵</td><td>“价格超出预期”</td><td>转化为长期价值</td></tr>
+                            <tr><td>⑤万一出问题呢</td><td>“担心售后无保障”</td><td>明确说出保障内容</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第二段 · 5种状态与对应公式</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>状态</th><th>回答公式</th></tr>
+                            <tr><td>①这是什么</td><td><strong>定义 → 类比 → 影响 → 品牌 → 追问</strong></td></tr>
+                            <tr><td>②真的有用吗</td><td><strong>共情 → 证据 → 场景 → 消虑 → 追问</strong></td></tr>
+                            <tr><td>③适合我吗</td><td><strong>确认 → 方案 → 理由 → 下一步</strong></td></tr>
+                            <tr><td>④怎么这么贵</td><td><strong>共情 → 重塑 → 换算 → 可信 → 反问</strong></td></tr>
+                            <tr><td>⑤万一出问题呢</td><td><strong>确认 → 机制 → 可信 → 升华</strong></td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第三段 · 完整方案</h4>
+
+                    <p><strong>状态①：这是什么</strong>（用户问“显色指数是什么？”）</p>
+                    <div class="quote-block">
+                        “显色指数就是灯光还原物体真实颜色的能力（定义）。太阳光是Ra100（类比），普通台灯Ra80左右，光线照在书本上颜色发白发灰，眼睛更费力（影响）。柏曼护眼灯做到Ra≥95（品牌）。您家孩子现在多大？（追问）”
+                    </div>
+
+                    <p><strong>状态②：真的有用吗</strong>（用户问“真的不伤眼睛吗？”）</p>
+                    <div class="quote-block">
+                        “很多家长都有同样的担心（共情）。我们的灯通过了国AA级和TÜV防蓝光认证（证据）。国AA是目前最高等级，光线均匀覆盖整张书桌，不会中间亮四周暗（场景）。30天无理由退换，您试用一个月再决定（消虑）。”
+                    </div>
+
+                    <p><strong>状态③：适合我吗</strong>（用户问“我家层高2.6m能装吗？”）</p>
+                    <div class="quote-block">
+                        “可以装（确认）。吊链最短调至30cm，装好后离地2.2米，成人走动不碰头（方案）。建议搭配调光开关（理由）。下单后师傅免费上门测量安装（下一步）。”
+                    </div>
+
+                    <p><strong>状态④：怎么这么贵</strong></p>
+                    <div class="quote-block">
+                        “确实，第一次看到价格都觉得不便宜（共情）。普通台灯200-300元，3年光衰就要换，10年买3-4盏（重塑）。柏曼12年不用换，一天不到1块钱（换算）。央企财险承保（可信）。您看哪个更划算？（反问）”
+                    </div>
+
+                    <p><strong>状态⑤：万一出问题呢</strong></p>
+                    <div class="quote-block">
+                        “柏曼提供12年性能质保（确认）。12年内亮度不达标、光源损坏、开关失灵——免费维修或换新（机制）。央企财险承保（可信）。您买的是灯，我们保的是12年不用操心（升华）。”
+                    </div>
+
+                    <h4>第四段 · 拆解</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>状态</th><th>最关键的一步</th><th>为什么</th></tr>
+                            <tr><td>①这是什么</td><td><strong>定义（第一步）</strong></td><td>必须先给定义，否则无法建立基本认知</td></tr>
+                            <tr><td>②真的有用吗</td><td><strong>证据（第二步）</strong></td><td>要的不是“我信你”，是“你有证据”</td></tr>
+                            <tr><td>③适合我吗</td><td><strong>确认（第一步）</strong></td><td>先确认“你听懂了我的情况”</td></tr>
+                            <tr><td>④怎么这么贵</td><td><strong>重塑（第二步）</strong></td><td>不接受价格是因为把它看作“一次性支出”</td></tr>
+                            <tr><td>⑤万一出问题呢</td><td><strong>机制（第二步）</strong></td><td>要的不是“有保障”，是“具体怎么解决”</td></tr>
+                        </table>
+                    </div>
+
+                    <h4>第五段 · 变体拓展</h4>
+                    <div class="table-wrap">
+                        <table>
+                            <tr><th>状态</th><th>变体场景</th><th>关键替换</th></tr>
+                            <tr><td>①这是什么</td><td>色温是什么</td><td>“2700K是暖黄光，4000K是中性光”</td></tr>
+                            <tr><td>①这是什么</td><td>光束角是什么</td><td>“24°适合重点照明，38°适合洗墙”</td></tr>
+                            <tr><td>④怎么这么贵</td><td>比竞品贵</td><td>“核心区别不在亮度，在光品质”</td></tr>
+                        </table>
+                    </div>
+                </div>
+
+
+                <!-- ========================================================== -->
+                <!-- 九、快速查询工具 -->
+                <h2 id="sec-tools">九、快速查询工具</h2>
+
+                <div class="card">
+                    <div class="card-tag">速查</div>
+                    <div class="card-title">品牌信息速查</div>
+                    <div class="grid-2">
+                        <span><span class="label">定位</span> 高端顶流+光品质</span>
+                        <span><span class="label">核心主张</span> 58年不跨界，只做灯</span>
+                        <span><span class="label">FRESH AIR</span> 功能·责任·生态·安全·健康 / 氛围·明亮·松弛</span>
+                        <span><span class="label">PURE系列</span> P尊享 / U电工 / R大师 / E菁英</span>
+                        <span><span class="label">护眼灯卖点</span> Ra≥95·国AA·全光谱·无蓝光</span>
+                        <span><span class="label">家居灯卖点</span> 包豪斯设计·三重耐看·全金属</span>
+                        <span><span class="label">家装灯卖点</span> 深度防眩·多种光束角·科学配光</span>
+                        <span><span class="label">服务承诺</span> 12年质保·专属安装·免费设计·流光计划</span>
+                    </div>
+                </div>
+
+                <div class="card box-red">
+                    <div class="card-tag" style="background:#b34332;">速查</div>
+                    <div class="card-title">营销红线</div>
+                    <ul>
+                        <li>❌ 禁止低价内卷、夸大宣传、低俗博眼球</li>
+                        <li>❌ 禁止贬低同行，保持高端、严谨、温柔、绅士</li>
+                        <li>❌ 禁止“天花板”“必入”“炸裂”“yyds”等禁用词</li>
+                        <li>❌ 禁止只讲参数不讲用户价值，禁止品牌自嗨</li>
+                    </ul>
+                </div>
+
+                <div class="card box-green">
+                    <div class="card-tag" style="background:#4a7b5c;">速查</div>
+                    <div class="card-title">SOP快速索引</div>
+                    <div class="grid-2">
+                        <span>详情页 → SOP-01</span>
+                        <span>品牌通版 → SOP-02</span>
+                        <span>品牌二级页 → SOP-03</span>
+                        <span>主图 → SOP-04</span>
+                        <span>主图视频 → SOP-05</span>
+                        <span>微详情视频 → SOP-06</span>
+                        <span>广告图 → SOP-07</span>
+                        <span>直播 → SOP-08</span>
+                        <span>小红书图文 → SOP-09</span>
+                        <span>小红书视频 → SOP-10</span>
+                        <span>公众号 → SOP-11</span>
+                        <span>视频号 → SOP-12</span>
+                        <span>抖音 → SOP-13</span>
+                        <span>售前售后话术 → SOP-14</span>
+                    </div>
+                </div>
+
+                <hr />
+                <p style="font-size:14px;color:#8a7a6a;padding-top:8px;">本工具涵盖14个内容类型的完整SOP，策划人员可根据品类×目的阶段快速定位到对应方案。</p>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav a');
+            const content = document.getElementById('mainContent');
+            const sections = [];
+
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && (href.startsWith('#sec-') || href.startsWith('#sop-'))) {
+                    const id = href.substring(1);
+                    const el = document.getElementById(id);
+                    if (el) sections.push({ id: id, element: el, link: link });
+                }
+            });
+
+            function updateActive() {
+                let currentId = null;
+                for (let i = 0; i < sections.length; i++) {
+                    const rect = sections[i].element.getBoundingClientRect();
+                    const containerRect = content.getBoundingClientRect();
+                    const top = rect.top - containerRect.top;
+                    if (top < 120 && rect.bottom > containerRect.top + 50) {
+                        currentId = sections[i].id;
+                        break;
+                    }
+                }
+                if (!currentId) {
+                    for (let i = sections.length - 1; i >= 0; i--) {
+                        const rect = sections[i].element.getBoundingClientRect();
+                        const containerRect = content.getBoundingClientRect();
+                        if (rect.top < containerRect.bottom - 100) {
+                            currentId = sections[i].id;
+                            break;
+                        }
+                    }
+                }
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href && href.substring(1) === currentId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            content.addEventListener('scroll', updateActive);
+            updateActive();
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const target = document.getElementById(targetId);
+                        if (target) {
+                            const containerRect = content.getBoundingClientRect();
+                            const targetRect = target.getBoundingClientRect();
+                            const offset = targetRect.top - containerRect.top + content.scrollTop - 16;
+                            content.scrollTo({ top: offset, behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
